@@ -28,17 +28,24 @@ function! s:enable_highlight() abort
   if empty(s:henkan_pos)
     let s:henkan_pos = getpos('.')
   endif
-  if s:henkan_pos[1] == line('.') &&
-        \ !(g:skkeleton#state.phase =~# '^input:' && s:henkan_pos[2] == col('.'))
-    call prop_add(
-          \   line('.'),
-          \   s:henkan_pos[2],
-          \   #{
-          \     end_col: col('.'),
-          \     type: 'skkeleton-henkan',
-          \   }
-          \ )
+
+  let col = col('.')
+  let line = line('.')
+
+  if s:henkan_pos[1] != line ||
+        \ g:skkeleton#state.phase =~# '^input:' && s:henkan_pos[2] == col ||
+        \ col <  s:henkan_pos[2]
+    return
   endif
+
+  call prop_add(
+        \   line,
+        \   min([s:henkan_pos[2], col]),
+        \   #{
+        \     end_col: max([s:henkan_pos[2], col]),
+        \     type: 'skkeleton-henkan',
+        \   }
+        \ )
 endfunction
 
 function! s:disable_highlight() abort
