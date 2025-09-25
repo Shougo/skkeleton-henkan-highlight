@@ -6,7 +6,7 @@ A Vim / Neovim plugin to highlight words during henkan in [skkeleton](https://gi
 ## Installation
 You can use your preferred plugin manager.
 
-## Prerequisite
+## Prerequisites
 [denops.vim](https://github.com/vim-denops/denops.vim)  
 [skkeleton](https://github.com/vim-skk/skkeleton)
 
