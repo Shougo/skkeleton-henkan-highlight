@@ -1,5 +1,5 @@
 # skkeleton-henkan-highlight
-([Here is the Japanese document](README-ja.md))
+([Here is the Japanese document](README-ja.md)) \
 A Vim / Neovim plugin to highlight words during henkan in [skkeleton](https://github.com/vim-skk/skkeleton).
 ![screenshot](https://raw.githubusercontent.com/NI57721/skkeleton-henkan-highlight/assets/screenshot.gif)
 
@@ -7,11 +7,11 @@ A Vim / Neovim plugin to highlight words during henkan in [skkeleton](https://gi
 You can use your preferred plugin manager.
 
 ## Prerequisites
-[denops.vim](https://github.com/vim-denops/denops.vim)  
+[denops.vim](https://github.com/vim-denops/denops.vim) \
 [skkeleton](https://github.com/vim-skk/skkeleton)
 
 ## Usage
-This plugin use a hightlight group, `SkkeletonHenkan`, which allows you to highlight words during henkan.
+This plugin uses a hightlight group, `SkkeletonHenkan`, which allows you to highlight words during henkan.
 
 ### Example
 ```vim
