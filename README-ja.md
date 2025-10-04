@@ -12,13 +12,14 @@
 [skkeleton](https://github.com/vim-skk/skkeleton)
 
 ## 使用方法
-ユーザーが`SkkeletonHenkan`という変換グループを定義すると、それを使って変換中の文字にハイライトを当てることができます。
+ユーザーが`SkkeletonHenkan`と`SkkeletonHenkanSelect`という変換グループを定義すると、それを使って変換中の文字にハイライトを当てることができます。
 
 ### 設定例
 ```vim
 " ノーマル・ターミナルでは変換中に下線を引き、
 " カラー・ターミナルでは変換中に色を反転する
 highlight SkkeletonHenkan gui=underline term=underline cterm=reverse
+highlight SkkeletonHenkanSelect gui=underline term=underline cterm=reverse
 ```
 
 ## ライセンス

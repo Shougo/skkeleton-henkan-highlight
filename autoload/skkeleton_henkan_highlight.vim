@@ -1,25 +1,36 @@
 let s:prop_type = 'skkeleton-henkan'
-let s:highlight_name = 'SkkeletonHenkan'
 let s:namespace = has('nvim') ? nvim_create_namespace(s:prop_type) : 0
 
+let s:prev_state = ''
 let s:henkan_pos = []
 
 function! skkeleton_henkan_highlight#update() abort
+  if g:skkeleton#state.phase =~# '^input' && s:prev_state ==# 'henkan'
+    " Clear previous state
+    call s:disable_highlight()
+  endif
+
   if (g:skkeleton#state.phase ==# 'input' && mode() !=# 'i')
-        \ || g:skkeleton#state.phase !~# '^input:'
+        \ || g:skkeleton#state.phase !~# '^input:\|^henkan'
     call s:disable_highlight()
   else
-    call s:enable_highlight()
+    call s:enable_highlight(
+          \    g:skkeleton#state.phase ==# 'henkan'
+          \  ? 'SkkeletonHenkanSelect'
+          \  : 'SkkeletonHenkan'
+          \ )
   endif
+
+  let s:prev_state = g:skkeleton#state.phase
 endfunction
 
-function! s:enable_highlight() abort
-  if !hlexists(s:highlight_name)
+function! s:enable_highlight(highlight_name) abort
+  if !hlexists(a:highlight_name)
     return
   endif
 
   if !has('nvim') && empty(prop_type_get(s:prop_type))
-    call prop_type_add(s:prop_type, #{highlight: s:highlight_name})
+    call prop_type_add(s:prop_type, #{highlight: a:highlight_name})
   endif
 
   if empty(s:henkan_pos)
@@ -40,7 +51,7 @@ function! s:enable_highlight() abort
   if has('nvim')
     call nvim_buf_set_extmark(0, s:namespace, line - 1, start - 1, #{
           \   end_col: end - 1,
-          \   hl_group: s:highlight_name,
+          \   hl_group: a:highlight_name,
           \ })
   else
     call prop_add(
