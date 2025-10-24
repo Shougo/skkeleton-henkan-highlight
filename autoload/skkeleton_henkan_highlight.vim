@@ -25,27 +25,23 @@ function! skkeleton_henkan_highlight#update() abort
 endfunction
 
 function! s:enable_highlight(highlight_name) abort
-  if !hlexists(a:highlight_name)
-    return
-  endif
-
-  let col = col('.')
-  let line = line('.')
-
-  if g:skkeleton#state.henkanFeed ==# ""
+  if !hlexists(a:highlight_name) || g:skkeleton#state.henkanFeed ==# ""
     return
   endif
 
   if g:skkeleton#state.phase ==# 'henkan'
+        \ || g:skkeleton#state.phase ==# 'input:okuriari'
+    " Use the last henkan_pos
     let start = s:henkan_pos
   else
-    let start = col - len(g:skkeleton#state.henkanFeed)
+    let start = col('.') - len(g:skkeleton#state.henkanFeed)
 
     " Save henkan_pos
     let s:henkan_pos = start
   endif
 
-  let end = col
+  let end = col('.')
+  let line = line('.')
 
   if has('nvim')
     call nvim_buf_set_extmark(0, s:namespace, line - 1, start - 1, #{
@@ -82,7 +78,8 @@ function! s:disable_highlight() abort
   if has('nvim')
     call nvim_buf_clear_namespace(0, s:namespace, 0, -1)
   else
-    if empty(prop_type_get(s:prop_type)) || empty(prop_find(#{type: s:prop_type}))
+    if empty(prop_type_get(s:prop_type))
+          \ || empty(prop_find(#{type: s:prop_type}))
       return
     endif
 
